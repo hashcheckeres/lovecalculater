@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Love Calculator – Fun compatibility test with romantic design, music, hearts animation, and share options." />
+  <title>💘 Love Calculator | HashCheckeres</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://i.imgur.com/7dz1fnv.jpg') no-repeat center center/cover;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      backdrop-filter: brightness(0.4) blur(2px);
+      z-index: 0;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .heart-fall {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall 8s linear infinite;
+      color: pink;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #d81b60;
+      margin-bottom: 10px;
+    }
+
+    .heart {
+      font-size: 40px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); color: #e91e63; }
+      50% { transform: scale(1.2); color: #ff4081; }
+      100% { transform: scale(1); color: #e91e63; }
+    }
+
+    input {
+      width: 80%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #ad1457;
+    }
+
+    .theme-toggle {
+      background: none;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #444;
+      font-weight: bold;
+    }
+
+    footer {
+      font-size: 12px;
+      color: white;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-top: 30px;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 0 15px;
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Hearts -->
+  <script>
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-fall';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      heart.innerText = '💖';
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <!-- Center Wrapper -->
+  <div class="wrapper">
+    <div class="container">
+      <div class="heart">❤️</div>
+      <h1>Love Calculator</h1>
+      <input type="text" id="name1" placeholder="Your Name" />
+      <input type="text" id="name2" placeholder="Partner's Name" />
+      <br />
+      <button onclick="calculateLove()">Check Compatibility</button>
+      <button onclick="copyResult()">💌 Copy Result</button>
+      <button onclick="shareWhatsApp()">📲 Share on WhatsApp</button>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+      <div class="result" id="result"></div>
+    </div>
+
+    <footer>
+      &copy; 2025 Love Calculator by <a href="https://hashcheckeres.github.io/">HashCheckeres</a>
+    </footer>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Script -->
+  <script>
+    const name1Input = document.getElementById("name1");
+    const name2Input = document.getElementById("name2");
+    const result = document.getElementById("result");
+
+    window.onload = () => {
+      if (localStorage.getItem("name1")) name1Input.value = localStorage.getItem("name1");
+      if (localStorage.getItem("name2")) name2Input.value = localStorage.getItem("name2");
+    };
+
+    function calculateLove() {
+      const name1 = name1Input.value.trim();
+      const name2 = name2Input.value.trim();
+
+      if (!name1 || !name2) {
+        result.innerHTML = "💔 Please enter both names!";
+        result.style.color = "red";
+        return;
+      }
+
+      localStorage.setItem("name1", name1);
+      localStorage.setItem("name2", name2);
+
+      const percent = Math.floor(Math.random() * 41) + 60;
+      result.innerHTML = `💖 ${name1} ❤️ ${name2} = <strong>${percent}%</strong> match!`;
+      result.style.color = "#d81b60";
+    }
+
+    function copyResult() {
+      const text = result.innerText;
+      navigator.clipboard.writeText(text);
+      alert("💌 Result copied! Share with your love.");
+    }
+
+    function shareWhatsApp() {
+      const name1 = name1Input.value.trim();
+      const name2 = name2Input.value.trim();
+      const text = result.innerText || "Check your love score!";
+      const url = `https://wa.me/?text=${encodeURIComponent(`Love Match Result:\n${text}\nCheck yours: https://hashcheckeres.github.io/Love-Calculator/`)}`;
+      window.open(url, "_blank");
+    }
+
+    function toggleTheme() {    
+      document.body.style.filter =
+        document.body.style.filter === "invert(1)" ? "invert(0)" : "invert(1)";
+    }
+  </script>
+
+</body>
+</html>
